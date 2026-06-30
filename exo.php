@@ -28,7 +28,11 @@ $categories = [
 ];
 
 
-
+for ($i=0; $i < count($categories) ; $i++) { 
+    if (count($categories[$i]["produits"]) == 0) {
+        echo "les categories qui n'on op de produits :".$categories[$i]["nom"]."";
+    }
+}
 
 
 
