@@ -27,6 +27,7 @@ $categories = [
          ]
 ];
 
+//2
 
 for ($i=0; $i < count($categories) ; $i++) { 
     if (count($categories[$i]["produits"]) == 0) {
@@ -34,46 +35,48 @@ for ($i=0; $i < count($categories) ; $i++) {
     }
 }
 
+//3
+
 echo "\nles informations de la categorie\n";
 
 do {
-    $codevalide = true;
+    $codeValide = true;
 
     $code = readline("\nentre le code :\n");
     if($code === ""){
-        $codevalide = false;
+        $codeValide = false;
         echo "\n les champs son obligatoir \n";
     }else {
         for ($i=0; $i < count($categories); $i++) { 
-            if ($categories[$i]["code"] == $code) {
-                $codevalide = false;
+            if ($categories[$i]["code"] === $code) {
+                $codeValide = false;
                 echo "\nle code doit etre unique\n";
                 break;
             }
         }
     }
-} while (!$codevalide);
+} while (!$codeValide);
 
 
 
 do {
 
-    $nomvalide = true;
+    $nomValide = true;
 
     $nom = readline("\nentre le nom :\n");
-    if($nom == ""){
-        $nomvalide = false;
+    if($nom === ""){
+        $nomValide = false;
         echo "\n les champs son obligatoir \n";
     }else {
         for ($i=0; $i < count($categories); $i++) { 
-            if ($categories[$i]["nom"] == $nom) {
-                $nomvalide = false;
+            if ($categories[$i]["nom"] === $nom) {
+                $nomValide = false;
                 echo "\nle nom doit etre unique\n";
                 break;
             }
         }
     }
-} while (!$nomvalide);
+} while (!$nomValide);
 
 $categorie=[
             "code" => $code,
@@ -83,6 +86,89 @@ $categorie=[
 
 
 $categories[]=$categorie;
+
+//4
+
+do {
+    $referenceValide = true;
+
+    $reference = readline("\nentre la reference :\n");
+    if($reference === ""){
+        $referenceValide = false;
+        echo "\n les champs son obligatoir \n";
+    }else {
+        for ($i=0; $i < count($categories); $i++) {
+            for ($j=0; $j <count($categories[$i]["produits"] ); $j++) { 
+                if ($categories[$i]["produits"][$j]["reference"] === $reference) {
+                    $referenceValide = false;
+                    echo "\nle reference doit etre unique\n";
+                    break;
+                }
+            }   
+        }
+    }
+
+} while (!$referenceValide);
+
+
+
+do {
+    $nomProduitValide = true;
+
+    $nomProduit = readline("\nentre le nomProduit :\n");
+    if($nomProduit === ""){
+        $nomProduitValide = false;
+        echo "\n les champs son obligatoir \n";
+    }
+} while (!$nomProduitValide);
+
+
+do {
+    $prixValide = true;
+
+    $prix = readline("\nentre le prix :\n");
+    if($prix < 0){
+        $prixValide = false;
+        echo "\n les champs son obligatoir \n";
+    }
+} while (!$prixValide);
+
+
+do {
+    $quantiteValide = true;
+
+    $quantite = readline("\nentre le quantite :\n");
+    if($quantite < 0){
+        $quantiteValide = false;
+        echo "\n les champs son obligatoir \n";
+    }
+} while (!$quantiteValide);
+
+
+    $categorieExiste = false;
+
+    $coderecherche = readline("\nentre le code :\n");
+    
+        for ($i=0; $i < count($categories); $i++) { 
+            if ($categories[$i]["code"] === $coderecherche) {
+                $categorieExiste = true;
+                break
+                
+            }
+        }
+
+    if ($categorieExiste) {
+        $produit = [
+                "nom" => $nomProduit,
+                "reference" => $reference,
+                "prix" =>$prix,
+                "quantite" => $quantite 
+            ];
+
+            $categories[$i]["produits"][]=$produit;
+        
+    }
+
 
 
 
