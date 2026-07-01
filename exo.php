@@ -73,4 +73,49 @@ function creerCategorie(array &$categories): void {
 creerCategorie($categories);
 
 //4 5
+
+function ajouterProduit(array &$categories): void {
+    echo "\n--- Saisie d'un nouveau produit ---\n";
+    
+    do {
+        $ref = trim(readline("Entrez la référence : "));
+        $refExiste = false;
+        for ($i = 0; $i < count($categories); $i++) {
+            if (chercherIndex($categories[$i]["produits"], "reference", $ref) !== -1) {
+                $refExiste = true;
+                break;
+            }
+        }
+        if ($ref === "") echo "Champs obligatoire.\n";
+        if ($refExiste) echo "Cette référence existe déjà.\n";
+    } while ($ref === "" || $refExiste);
+
+    do {
+        $nomProd = trim(readline("Entrez le nom du produit : "));
+    } while ($nomProd === "");
+
+    do {
+        $prix = trim(readline("Entrez le prix : "));
+    } while ($prix === "" || (int)$prix < 0);
+
+    do {
+        $quantite = trim(readline("Entrez la quantité : "));
+    } while ($quantite === "" || (int)$quantite < 0);
+
+    $nouveauProduit = ["nom" => $nomProd, "reference" => $ref, "prix" => (int)$prix, "quantite" => (int)$quantite];
+
+    echo "\n Affectation du produit \n";
+    do {
+        $codeCible = trim(readline("Entrez le code de la catégorie cible : "));
+        $indexCible = chercherIndex($categories, "code", $codeCible);
+        if ($indexCible === -1) echo "Cette catégorie n'existe pas. Réessayez.\n";
+    } while ($indexCible === -1);
+
+    $categories[$indexCible]["produits"][] = $nouveauProduit;
+    echo "\nSuccès ! Le produit a été ajouté à la catégorie " . $categories[$indexCible]["nom"] . ".\n";
+}
+
+ajouterProduit($categories);
+
+
 ?>
