@@ -37,8 +37,40 @@ function afficheCategorieSansProduit(array $categories): void{
 }
 
 }
-afficheCategorieSansProduit($categories)
+afficheCategorieSansProduit($categories);
 
+//3
+function chercherIndex(array $tableau, string $cle, string $valeurCherchee): int {
+    for ($i = 0; $i < count($tableau); $i++) {
+        if ($tableau[$i][$cle] === $valeurCherchee) {
+            return $i;
+        }
+    }
+    return -1;
+}
 
+function creerCategorie(array &$categories): void {
+    echo "\n Création d'une catégorie \n";
+    
+    do {
+        $code = trim(readline("Entrez le code : "));
+        $indexCode = chercherIndex($categories, "code", $code);
+        if ($code === "") echo "Champs obligatoire.\n";
+        if ($indexCode !== -1) echo "Ce code existe déjà.\n";
+    } while ($code === "" || $indexCode !== -1);
 
+    do {
+        $nom = trim(readline("Entrez le nom : "));
+        $indexNom = chercherIndex($categories, "nom", $nom);
+        if ($nom === "") echo "Champs obligatoire.\n";
+        if ($indexNom !== -1) echo "Ce nom existe déjà.\n";
+    } while ($nom === "" || $indexNom !== -1);
+
+    $categories[] = ["code" => $code, "nom" => $nom, "produits" => []];
+    echo "Catégorie ajoutée avec succès !\n";
+}
+
+creerCategorie($categories);
+
+//4 5
 ?>
